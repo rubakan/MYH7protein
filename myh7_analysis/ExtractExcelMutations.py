@@ -22,8 +22,8 @@
 #*************************************************************************************************************************
 
 #
-#In this script I have extracted from the Excel document that we received f
-#rom cardiologist Dr.Lopes Luis from St Bartholomew's Hospital. 
+#In this script I have extracted from the Excel document that we received 
+#from cardiologist Dr.Lopes Luis from St Bartholomew's Hospital. 
 #The goal is to use this script on Dr. Andrew Martin's bioinformatic tool to analyze.(?)
 #*********************************************************************************************************
 
@@ -32,6 +32,9 @@ import re
 
 
 def extract_mutants(df):
+    """
+    Here I am trying to extract mutant from the excel document
+    """
     
     native_residue=list() #List of native residue
     residue_number=list() #List of reisdue number
@@ -49,17 +52,23 @@ def extract_mutants(df):
                     mutant_residue.append(match[2])
     
     return native_residue, residue_number, mutant_residue
-    #print("Found %d", len(native_residue))
     
-def main():
-    path = 'MYH7_Luis_Lopes.xlsx'   #Excel docuemnt from Dr.Luis Lopes
+def main(file, accession_code):
      
-    accession_code = "P12883"
-    
-    df = pd.ExcelFile('MYH7_Luis_Lopes.xlsx').parse('Majid MYH7') #Read ExcelFile
-    
+    #accession_code = "P12883"
+    df = pd.ExcelFile(file).parse('Majid MYH7') #Read ExcelFile
     native_residue, residue_number, mutant_residue = extract_mutants(df)
 
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", help="file to analyze", type=str)
+    parser.add_argument("accession_code", help="accession code", type=str)
+    args = parser.parse_args()
+    main(args.file, args.accession_code)
+    
 
-
+   
+    
+ 
 

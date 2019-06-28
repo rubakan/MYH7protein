@@ -38,9 +38,11 @@ for i, line in enumerate(df['MYH7protein']):
                 native_residue.append(match[0])
                 residue_number.append(match[1])
                 mutant_residue.append(match[2])
-                print(i, native_residue[-1], residue_number[-1], mutant_residue[-1])
+                print(accession_code, native_residue[-1], residue_number[-1], mutant_residue[-1])
 
 #print("Found %d", len(native_residue))
+
+
 
 
 
