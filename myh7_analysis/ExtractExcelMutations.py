@@ -59,35 +59,34 @@ import pandas as pd
 import re
 
 
-def extract_mutants(df):
+def extract_mutants(df, column_name):
     """
     Here I am trying to extract mutant from the excel document.
     We import the pandas module, including ExcelFile. 
     The df reads the data into a Pandas Data Frame.
     """
     
-    native_residue=list() #List of native residue
-    residue_number=list() #List of reisdue number
-    mutant_residue =list() # List of mutant residue
+    result=list() #List of native residue
     pattern=re.compile("(\w)(\d+)(\w)")
       
-    for i, line in enumerate(df['MYH7protein']):
+    for i, line in enumerate(df[column_name]): #paramether
         if not pd.isnull(line):
             matches = re.findall(pattern, line)
             if len(matches) == 1:
                 match = matches[0]
                 if (len(match)) == 3:
-                    native_residue.append(match[0])
-                    residue_number.append(match[1])
-                    mutant_residue.append(match[2])
+                    result.append(match[0] + ' ' + match[1] + ' '+ match[2]) #one line
+                    
     
-    return native_residue, residue_number, mutant_residue
+    return result
     
-def main(file, accession_code):
+def main(file,sheet_name, column_name, accession_code): #mangler her 
      
     #accession_code = "P12883"
-    df = pd.ExcelFile(file).parse('Majid MYH7') #Read ExcelFile
-    native_residue, residue_number, mutant_residue = extract_mutants(df)
+    df = pd.ExcelFile(file).parse(sheet_name) #Read ExcelFile #Exchelsheet
+    results = extract_mutants(df,column_name)
+    for result in results:
+        print(accession_code, ' ', result)
 
 if __name__ == "__main__":
     """
@@ -98,8 +97,9 @@ if __name__ == "__main__":
     parser.add_argument("file", help="file to analyze", type=str)
     parser.add_argument("column_name", help="column name", type=str)
     parser.add_argument("accession_code", help="accession code", type=str)
+    parser.add_argument("sheet_name", help ="sheet name", type=str)
     args = parser.parse_args()
-    main(args.file,args.column_name,args.accession_code)
+    main(args.file,args.sheet_name,args.column_name,args.accession_code)
     
 
    
