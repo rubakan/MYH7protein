@@ -95,9 +95,9 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("file", help="file to analyze", type=str)
+    parser.add_argument("sheet_name", help ="sheet name", type=str)
     parser.add_argument("column_name", help="column name", type=str)
     parser.add_argument("accession_code", help="accession code", type=str)
-    parser.add_argument("sheet_name", help ="sheet name", type=str)
     args = parser.parse_args()
     main(args.file,args.sheet_name,args.column_name,args.accession_code)
     
